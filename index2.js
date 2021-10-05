@@ -4,6 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		.getElementsByClassName('windowTool')[0]
 		.getElementsByTagName('div')
 	const mainWindow = remote.getCurrentWindow()
+	window.onbeforeunload = function () {
+		const isClose = document.getElementsByClassName('isClose')[0]
+		const btn = isClose.getElementsByTagName('span')
+		isClose.style.display = 'block'
+		btn[0].addEventListener('click', () => {
+			mainWindow.destroy()
+		})
+		btn[1].addEventListener('click', () => {
+			isClose.style.display = 'none'
+		})
+		return false
+	}
+
 	aBtn[0].addEventListener('click', () => {
 		mainWindow.close()
 	})
