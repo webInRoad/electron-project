@@ -8,16 +8,16 @@ function createWindow() {
 		show: false, //默认情况下创建一个窗口对象之后就会显示，设置为 false 就不会显示，就不会有白屏问题
 		width: 600,
 		height: 400,
-		maxHeight: 600,
-		maxWidth: 1000,
-		minHeight: 200,
-		minWidth: 300, //可以通过 min max 来设置当前应用窗口的最大和最小尺寸
+		// maxHeight: 600,
+		// maxWidth: 1000,
+		// minHeight: 200,
+		// minWidth: 300, //可以通过 min max 来设置当前应用窗口的最大和最小尺寸
 		// resizable: false, // 是否允许缩放应用的窗口大小
-		// frame: false, //用于自定义 menu,设置为 false,可以将标题以及菜单隐藏
-		autoHideMenuBar: true, // true 只隐藏菜单
+		frame: false, //用于自定义 menu,设置为 false,可以将标题以及菜单隐藏
+		// autoHideMenuBar: true, // true 只隐藏菜单
 		title: 'electron 标题', // 设置窗口标题，对应的 html 不要设置 title 才会生效
 		icon: 'file.ico', // 设置窗口图标
-		transparent: false, // 透明度 没起作用
+		// transparent: false, // 透明度 没起作用
 		webPreferences: {
 			nodeIntegration: true, // 配合 contextIsolation 才会起作用
 			contextIsolation: false
@@ -27,7 +27,6 @@ function createWindow() {
 	// 在当前窗口中加载指定界面让它显示具体的内容
 	mainWindow.loadFile('index.html')
 	const contents = mainWindow.webContents
-	console.log(contents)
 	require('@electron/remote/main').enable(contents)
 	mainWindow.on('ready-to-show', () => {
 		mainWindow.show()
