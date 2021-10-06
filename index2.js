@@ -1,9 +1,9 @@
-const remote = require('@electron/remote')
+const { getCurrentWindow } = require('@electron/remote')
 document.addEventListener('DOMContentLoaded', () => {
 	let aBtn = document
 		.getElementsByClassName('windowTool')[0]
 		.getElementsByTagName('div')
-	const mainWindow = remote.getCurrentWindow()
+	const mainWindow = getCurrentWindow()
 	window.onbeforeunload = function () {
 		const isClose = document.getElementsByClassName('isClose')[0]
 		const btn = isClose.getElementsByTagName('span')

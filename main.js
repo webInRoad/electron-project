@@ -1,6 +1,7 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 require('@electron/remote/main').initialize()
 
+console.info(process.platform)
 function createWindow() {
 	let mainWindow = new BrowserWindow({
 		x: 100,
@@ -13,7 +14,7 @@ function createWindow() {
 		// minHeight: 200,
 		// minWidth: 300, //可以通过 min max 来设置当前应用窗口的最大和最小尺寸
 		// resizable: false, // 是否允许缩放应用的窗口大小
-		frame: false, //用于自定义 menu,设置为 false,可以将标题以及菜单隐藏
+		// frame: false, //用于自定义 menu,设置为 false,可以将标题以及菜单隐藏
 		// autoHideMenuBar: true, // true 只隐藏菜单
 		title: 'electron 标题', // 设置窗口标题，对应的 html 不要设置 title 才会生效
 		icon: 'file.ico', // 设置窗口图标
@@ -24,8 +25,99 @@ function createWindow() {
 			// enableRemoteModule: true
 		}
 	})
+	// 1.自定义菜单的内容
+	let menuTemp = [
+		{
+			label: 'File',
+			submenu: [
+				{
+					label: 'New File',
+					click() {
+						console.info('创建文件')
+					}
+				},
+				{
+					label: 'New window'
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'open File'
+				},
+				{
+					label: '关于',
+					role: 'about'
+				}
+			]
+		},
+		{
+			label: 'Edit'
+		},
+		{
+			label: '角色',
+			submenu: [
+				{ label: '复制', role: 'copy' },
+				{
+					label: '剪切',
+					role: 'cute'
+				},
+				{
+					label: '粘贴',
+					role: 'paste'
+				},
+				{
+					label: '最小化',
+					role: 'minimize'
+				},
+				{
+					label: '放大',
+					role: 'zoomin'
+				}
+			]
+		},
+		{
+			label: '四种类型',
+			submenu: [
+				{ label: '选项1', type: 'checkbox' },
+				{ label: '选项2', type: 'checkbox' },
+				{ label: '选项3', type: 'checkbox' },
+				{ type: 'separator' },
+				{
+					label: 'item1',
+					type: 'radio'
+				},
+				{
+					label: 'item2',
+					type: 'radio'
+				},
+				{
+					label: 'Windows',
+					type: 'submenu',
+					role: 'windowMenu'
+				}
+			]
+		},
+		{
+			label: '其他',
+			submenu: [
+				{
+					label: '打开',
+					icon: './file.ico',
+					accelerator: 'Ctrl + o',
+					click() {
+						console.info('open 操作执行了')
+					}
+				}
+			]
+		}
+	]
+	// 2.根据上述的模板数据生成一个 menu
+	const menu = Menu.buildFromTemplate(menuTemp)
+	// 3.将上述的自定义菜单添加到 app 里
+	Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('index.html')
+	mainWindow.loadFile('index2.html')
 	const contents = mainWindow.webContents
 	require('@electron/remote/main').enable(contents)
 	mainWindow.on('ready-to-show', () => {
