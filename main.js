@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 require('@electron/remote/main').initialize()
 
 console.info(process.platform)
+let mainId = null
 function createWindow() {
 	let mainWindow = new BrowserWindow({
 		x: 100,
@@ -25,6 +26,7 @@ function createWindow() {
 			// enableRemoteModule: true
 		}
 	})
+	mainId = mainWindow.id
 	// 1.自定义菜单的内容
 	let menuTemp = [
 		{
@@ -182,7 +184,8 @@ ipcMain.on('msg2', (ev, data) => {
 ipcMain.on('openModal', () => {
 	const modalMain = new BrowserWindow({
 		width: 200,
-		height: 200
+		height: 200,
+		parent: BrowserWindow.fromId(mainId) // 这样关闭父窗口，则子窗口会一并关闭
 	})
 	modalMain.loadFile('modal.html')
 	modalMain.on('close', () => {
