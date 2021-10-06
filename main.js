@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 require('@electron/remote/main').initialize()
 
 console.info(process.platform)
@@ -106,7 +106,10 @@ function createWindow() {
 					icon: './file.ico',
 					accelerator: 'Ctrl + o',
 					click() {
-						console.info('open 操作执行了')
+						BrowserWindow.getFocusedWindow().webContents.send(
+							'mtp',
+							'主进程发送消息给渲染进程'
+						)
 					}
 				}
 			]
@@ -117,8 +120,9 @@ function createWindow() {
 	// 3.将上述的自定义菜单添加到 app 里
 	Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('index4.html')
+	mainWindow.loadFile('index5.html')
 	const contents = mainWindow.webContents
+	contents.openDevTools()
 	require('@electron/remote/main').enable(contents)
 	mainWindow.on('ready-to-show', () => {
 		mainWindow.show()
@@ -167,3 +171,11 @@ app.on('window-all-closed', () => {
 // 	console.log('window-all-closed')
 // 	app.quit()
 // })
+ipcMain.on('msg1', (ev, data) => {
+	console.info(data)
+	ev.sender.send('msg1Re', '这是一条来自主进程的反馈消息')
+})
+ipcMain.on('msg2', (ev, data) => {
+	console.info(data)
+	ev.returnValue = '这是一条来自主进程的同步反馈消息'
+})
