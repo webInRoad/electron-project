@@ -120,7 +120,7 @@ function createWindow() {
 	// 3.将上述的自定义菜单添加到 app 里
 	Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('index.html')
+	mainWindow.loadFile('index6.html')
 	const contents = mainWindow.webContents
 	contents.openDevTools()
 	require('@electron/remote/main').enable(contents)
@@ -178,4 +178,14 @@ ipcMain.on('msg1', (ev, data) => {
 ipcMain.on('msg2', (ev, data) => {
 	console.info(data)
 	ev.returnValue = '这是一条来自主进程的同步反馈消息'
+})
+ipcMain.on('openModal', () => {
+	const modalMain = new BrowserWindow({
+		width: 200,
+		height: 200
+	})
+	modalMain.loadFile('modal.html')
+	modalMain.on('close', () => {
+		modalMain = null
+	})
 })
