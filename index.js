@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			modal: true
 		})
 		indexMain.loadFile('modal.html')
+		localStorage.setItem('name', 'electron 渲染进程')
+		indexMain.webContents.openDevTools()
 		indexMain.on('close', () => {
 			indexMain = null
 		})
