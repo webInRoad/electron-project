@@ -181,14 +181,27 @@ ipcMain.on('msg2', (ev, data) => {
 	console.info(data)
 	ev.returnValue = '这是一条来自主进程的同步反馈消息'
 })
-ipcMain.on('openModal', () => {
+ipcMain.on('openModal', (ev, data) => {
 	const modalMain = new BrowserWindow({
 		width: 200,
 		height: 200,
-		parent: BrowserWindow.fromId(mainId) // 这样关闭父窗口，则子窗口会一并关闭
+		parent: BrowserWindow.fromId(mainId), // 这样关闭父窗口，则子窗口会一并关闭
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false
+		}
 	})
 	modalMain.loadFile('modal.html')
+	modalMain.webContents.openDevTools()
+	// 等窗口加载好了，再进行通信
+	modalMain.webContents.on('did-finish-load', () => {
+		modalMain.webContents.send('itm', data)
+	})
 	modalMain.on('close', () => {
 		modalMain = null
 	})
+})
+ipcMain.on('mti', (ev, data) => {
+	// 通过 id 获取到对应的渲染进程,然后消息传递
+	BrowserWindow.fromId(mainId).webContents.send('mti2', data)
 })
