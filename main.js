@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 require('@electron/remote/main').initialize()
 
 console.info(process.platform)
@@ -35,11 +35,14 @@ function createWindow() {
 				{
 					label: 'New File',
 					click() {
-						console.info('创建文件')
+						shell.openExternal('https://kaiwu.lagou.com/')
 					}
 				},
 				{
-					label: 'New window'
+					label: '首选项',
+					click() {
+						BrowserWindow.getFocusedWindow().webContents.send('preferences')
+					}
 				},
 				{
 					type: 'separator'
@@ -122,7 +125,7 @@ function createWindow() {
 	// 3.将上述的自定义菜单添加到 app 里
 	Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('dialog.html')
+	mainWindow.loadFile('shellAndIframe.html')
 	const contents = mainWindow.webContents
 	contents.openDevTools()
 	require('@electron/remote/main').enable(contents)

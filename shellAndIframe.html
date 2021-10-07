@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>shell and iframe</title>
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		iframe {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+		}
+	</style>
+	<body>
+		<h2>shell and iframe</h2>
+		<!-- <a id="openUrl" href="https://www.baidu.com/">打开URL</a>
+		<br />
+		<br />
+		<button id="openFolder">打开目录</button> -->
+		<iframe
+			src="https://kaiwu.lagou.com/"
+			frameborder="0"
+			id="webView"
+		></iframe>
+		<script src="shellAndIframe.js"></script>
+	</body>
+</html>
