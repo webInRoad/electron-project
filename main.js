@@ -1,4 +1,11 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const {
+	app,
+	BrowserWindow,
+	Menu,
+	shell,
+	ipcMain,
+	globalShortcut
+} = require('electron')
 require('@electron/remote/main').initialize()
 
 console.info(process.platform)
@@ -146,6 +153,36 @@ function createWindow() {
 app.on('ready', () => {
 	console.log('1111---->app 初始化完成')
 	createWindow()
+})
+// app.on('ready', () => {
+// 	let ret = globalShortcut.register('CommandOrControl + q', () => {
+// 		console.info('快捷健注册成功')
+// 	})
+// 	if (!ret) {
+// 		console.info('注册失败')
+// 	}
+// 	console.info(globalShortcut.isRegistered('CommandOrControl + q'))
+// 	console.info(ret)
+// })
+app.whenReady().then(() => {
+	// Register a 'CommandOrControl+X' shortcut listener.
+	const ret = globalShortcut.register('CommandOrControl+O', () => {
+		console.log('CommandOrControl+X is pressed')
+	})
+
+	if (!ret) {
+		console.log('registration failed')
+	}
+
+	// 检查快捷键是否注册成功
+	console.log(globalShortcut.isRegistered('CommandOrControl+O'))
+})
+app.on('will-quit', () => {
+	// 注销快捷键
+	globalShortcut.unregister('CommandOrControl+O')
+
+	// 注销所有快捷键
+	globalShortcut.unregisterAll()
 })
 app.on('window-all-closed', () => {
 	console.log('4444---->所有窗口都被关闭时触发')
