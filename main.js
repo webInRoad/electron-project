@@ -132,7 +132,7 @@ function createWindow() {
 	// 3.将上述的自定义菜单添加到 app 里
 	Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('notification.html')
+	mainWindow.loadFile('clipboard.html')
 	const contents = mainWindow.webContents
 	contents.openDevTools()
 	require('@electron/remote/main').enable(contents)
