@@ -4,8 +4,12 @@ window.onload = function () {
 		console.info(data)
 		// document.getElementById('txt').innerText = localStorage.getItem('name')
 		document.getElementById('txt').innerText = data
-		document.getElementById('btn').addEventListener('click', () => {
-			ipcRenderer.send('mti', '这是条来自于 modal 的消息')
-		})
+    document.getElementById('btn').addEventListener('click', () => {
+      ipcRenderer.send('mti', '这是条来自于 modal 的消息')
+    })
 	})
+  
+  ipcRenderer.on('do-some-work', (e, a) => {
+    console.info(a)
+  })
 }

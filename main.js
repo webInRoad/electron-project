@@ -126,12 +126,12 @@ function createWindow() {
 			]
 		}
 	]
-	// 2.根据上述的模板数据生成一个 menu
-	const menu = Menu.buildFromTemplate(menuTemp)
-	// 3.将上述的自定义菜单添加到 app 里
-	Menu.setApplicationMenu(menu)
+	// // 2.根据上述的模板数据生成一个 menu
+	// const menu = Menu.buildFromTemplate(menuTemp)
+	// // 3.将上述的自定义菜单添加到 app 里
+	// Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('index5.html')
+	mainWindow.loadFile('index6.html')
 	const contents = mainWindow.webContents
 	contents.openDevTools()
 	require('@electron/remote/main').enable(contents)
@@ -231,6 +231,9 @@ ipcMain.on('openModal', (ev, data) => {
 		}
 	})
 	modalMain.loadFile('modal.html')
+  global.sharedObject =  {
+    modalMainWebContentsId: modalMain.webContents.id
+  }
 	modalMain.webContents.openDevTools()
 	// 等窗口加载好了，再进行通信
 	modalMain.webContents.on('did-finish-load', () => {
