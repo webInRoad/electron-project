@@ -8,7 +8,6 @@ const {
 } = require('electron')
 require('@electron/remote/main').initialize()
 
-console.info(process.platform)
 let mainId = null
 function createWindow() {
 	let mainWindow = new BrowserWindow({
@@ -132,26 +131,26 @@ function createWindow() {
 	// 3.将上述的自定义菜单添加到 app 里
 	Menu.setApplicationMenu(menu)
 	// 在当前窗口中加载指定界面让它显示具体的内容
-	mainWindow.loadFile('clipboard.html')
+	mainWindow.loadFile('index5.html')
 	const contents = mainWindow.webContents
 	contents.openDevTools()
 	require('@electron/remote/main').enable(contents)
 	mainWindow.on('ready-to-show', () => {
 		mainWindow.show()
 	})
-	mainWindow.on('close', () => {
-		console.log('8888---->当窗口关闭时触发，此时应删除窗口引用')
-		mainWindow = null
-	})
-	mainWindow.webContents.on('did-finish-load', () => {
-		console.log('3333---->导航完成时触发')
-	})
-	mainWindow.webContents.on('dom-ready', () => {
-		console.log('2222---->一个窗口中的文本加载完成')
-	})
+	// mainWindow.on('close', () => {
+	// 	console.log('8888---->当窗口关闭时触发，此时应删除窗口引用')
+	// 	mainWindow = null
+	// })
+	// mainWindow.webContents.on('did-finish-load', () => {
+	// 	console.log('3333---->导航完成时触发')
+	// })
+	// mainWindow.webContents.on('dom-ready', () => {
+	// 	console.log('2222---->一个窗口中的文本加载完成')
+	// })
 }
 app.on('ready', () => {
-	console.log('1111---->app 初始化完成')
+	// console.log('1111---->app 初始化完成')
 	createWindow()
 })
 // app.on('ready', () => {
@@ -184,10 +183,10 @@ app.on('will-quit', () => {
 	// 注销所有快捷键
 	globalShortcut.unregisterAll()
 })
-app.on('window-all-closed', () => {
-	console.log('4444---->所有窗口都被关闭时触发')
-	app.quit() // 当定义 window-all-closed 事件时，要手动添加该代码
-})
+// app.on('window-all-closed', () => {
+// 	console.log('4444---->所有窗口都被关闭时触发')
+// 	app.quit() // 当定义 window-all-closed 事件时，要手动添加该代码
+// })
 // app.on('before-quit', () => {
 // 	console.log('5555---->在关闭窗口之前触发')
 // })
